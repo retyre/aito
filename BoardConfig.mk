@@ -11,18 +11,18 @@ ALLOW_MISSING_DEPENDENCIES := true
 
 # Architecture
 TARGET_ARCH := arm64
-TARGET_ARCH_VARIANT := armv8-2a-dotprod
+TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
 TARGET_CPU_ABI2 :=
 TARGET_CPU_VARIANT := generic
-TARGET_CPU_VARIANT_RUNTIME := cortex-a78
+TARGET_CPU_VARIANT_RUNTIME := generic
 
 TARGET_2ND_ARCH := arm
-TARGET_2ND_ARCH_VARIANT := armv8-2a
+TARGET_2ND_ARCH_VARIANT := armv7-a-neon
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
-TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a55
+TARGET_2ND_CPU_VARIANT_RUNTIME := generic
 
 TARGET_USES_64_BIT_BINDER := true
 ENABLE_CPUSETS := true
@@ -33,7 +33,6 @@ TARGET_BOARD_PLATFORM := mt6878
 TARGET_BOOTLOADER_BOARD_NAME := mt6878
 TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
-PRODUCT_PLATFORM := mt6878
 
 # Kernel - prebuilt from stock (boot_a 14MB gzip + vendor_boot dtb)
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
@@ -50,9 +49,10 @@ BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_KERNEL_PAGESIZE)
 BOARD_RAMDISK_USE_LZ4 := true
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2
 
-# vendor_boot as recovery - no kernel in recovery image
-BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE := true
-BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+# vendor_boot as recovery - vendorboot carries ramdisk+dtb, kernel lives in boot
+# NOTE: no BOARD_INCLUDE_DTB_IN_BOOTIMG / BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE
+# here - board_config.mk rejects those unless building boot/recovery images,
+# and our target is vendorbootimage (dtb gets injected at pack time if needed)
 
 # A/B
 AB_OTA_UPDATER := true
@@ -60,6 +60,7 @@ AB_OTA_PARTITIONS += \
     boot \
     init_boot \
     vendor_boot \
+    dtbo \
     vbmeta \
     vbmeta_system \
     system \
@@ -164,4 +165,3 @@ TW_INCLUDE_LPDUMP := true
 TARGET_USES_LOGD := true
 TWRP_INCLUDE_LOGCAT := true
 TW_EXCLUDE_ENCRYPTED_BACKUPS := false
-TW_INCLUDE_FBE_METADATA_DECRYPT := true
