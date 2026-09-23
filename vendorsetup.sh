@@ -1,4 +1,38 @@
-# add_lunch_combo is obsolete - COMMON_LUNCH_CHOICES in AndroidProducts.mk is used instead
-export FOX_BUILD_DEVICE=aito
-export LC_ALL=C
-export ALLOW_MISSING_DEPENDENCIES=true
+# OrangeFox vendorsetup for aito (Razr 2024, mt6878)
+# No add_lunch_combo here - lunch choices come from
+# COMMON_LUNCH_CHOICES in AndroidProducts.mk (12.1 minimal manifest
+# treats add_lunch_combo as obsolete and aborts on it).
+
+FDEVICE="aito"
+
+fox_get_target_device() {
+	local script_path="${BASH_SOURCE[0]}"
+	if echo "$script_path" | grep -q "$FDEVICE"; then
+		FOX_BUILD_DEVICE="$FDEVICE"
+	elif echo "$0" | grep -q "$FDEVICE"; then
+		FOX_BUILD_DEVICE="$FDEVICE"
+	fi
+}
+
+if [ -z "$FOX_BUILD_DEVICE" ]; then
+	fox_get_target_device
+fi
+
+if [ "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
+	echo "Detected build device: $FOX_BUILD_DEVICE"
+	export ALLOW_MISSING_DEPENDENCIES=true
+	export LC_ALL=C
+	export FOX_AB_DEVICE=1
+	export FOX_VIRTUAL_AB_DEVICE=1
+	export FOX_RECOVERY_VENDOR_BOOT_PARTITION=vendor_boot
+	export FOX_USE_BASH_SHELL=1
+	export FOX_USE_TAR_BINARY=1
+	export FOX_USE_SED_BINARY=1
+	export FOX_USE_LZ4_BINARY=1
+	export FOX_USE_ZSTD_BINARY=1
+	export FOX_USE_XZ_UTILS=1
+	export FOX_DELETE_AROMAFM=1
+	export FOX_VARIANT=A15
+else
+	echo "I: vendorsetup.sh skipped; device mismatch or environment issue."
+fi
