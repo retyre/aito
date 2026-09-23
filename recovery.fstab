@@ -1,0 +1,11 @@
+# aito (Razr 2024, mt6878, A15) - encryption KEPT for camera/flashlight
+system        /system            erofs   ro   wait,slotselect,logical,first_stage_mount
+system_ext    /system_ext        erofs   ro   wait,slotselect,logical,first_stage_mount
+vendor        /vendor            erofs   ro   wait,slotselect,logical,first_stage_mount
+product       /product           erofs   ro   wait,slotselect,logical,first_stage_mount
+vendor_dlkm   /vendor_dlkm       erofs   ro   wait,slotselect,logical,first_stage_mount
+system_dlkm   /system_dlkm       erofs   ro   wait,slotselect,logical,first_stage_mount
+/metadata     /metadata          f2fs    noatime,nosuid,nodev,discard  wait,check,formattable,first_stage_mount
+/data         /data              f2fs    noatime,nosuid,nodev,discard,noflush_merge,fsync_mode=nobarrier,reserve_root=134217,resgid=1065  wait,check,formattable,quota,latemount,resize,reservedsize=128m,checkpoint=fs,fileencryption=ice,inlinecrypt_optimized,keydirectory=/metadata/vold/metadata_encryption,wrappedkey  sysfs_path=/sys/devices/platform/soc/112b0000.ufshci
+boot          /boot              emmc    defaults  defaults
+vendor_boot   /vendor_boot       emmc    defaults  defaults
