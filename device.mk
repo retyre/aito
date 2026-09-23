@@ -27,9 +27,5 @@ PRODUCT_PACKAGES += \
     android.hardware.security.keymint-service.trustonic \
     android.hardware.gatekeeper-service.trustonic
 
-# Touch firmware helpers
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/recovery/root/lib/modules/mmi_relay.ko:recovery/root/lib/modules/mmi_relay.ko \
-    $(LOCAL_PATH)/recovery/root/lib/modules/touchscreen_u_mmi.ko:recovery/root/lib/modules/touchscreen_u_mmi.ko \
-    $(LOCAL_PATH)/recovery/root/lib/modules/goodix_brl_u_mmi.ko:recovery/root/lib/modules/goodix_brl_u_mmi.ko \
-    $(LOCAL_PATH)/recovery/root/lib/modules/goodix_gt96x_u_mmi.ko:recovery/root/lib/modules/goodix_gt96x_u_mmi.ko
+# Touch modules are auto-included from recovery/root/ - no PRODUCT_COPY_FILES needed
+# (files live in recovery/root/lib/modules/ + modules.load.recovery)
