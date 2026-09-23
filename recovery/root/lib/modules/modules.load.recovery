@@ -1,0 +1,4 @@
+mmi_relay.ko
+touchscreen_u_mmi.ko
+goodix_brl_u_mmi.ko
+goodix_gt96x_u_mmi.ko
