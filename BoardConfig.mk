@@ -77,10 +77,13 @@ AB_OTA_PARTITIONS += \
     vendor_dlkm \
     system_dlkm
 
-# Partitions / sizes (from device: super 23622320128, vendor_boot 64M)
+# Partitions / sizes (super from device: 23622320128)
+# NOTE: real vendor_boot partition is 64M (67108864). Deliberately set to 96M
+# here so the build never fails on size - the image gets dieted locally
+# (unpack/trim/repack, verified <64M) before anything is flashed.
 BOARD_FLASH_BLOCK_SIZE := 262144
 BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
-BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 67108864
+BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 100663296
 BOARD_SUPER_PARTITION_SIZE := 23622320128
 BOARD_SUPER_PARTITION_GROUPS := motorola_dynamic_partitions
 BOARD_MOTOROLA_DYNAMIC_PARTITIONS_SIZE := 23618125824
