@@ -29,3 +29,16 @@ PRODUCT_PACKAGES += \
 
 # Touch modules are auto-included from recovery/root/ - no PRODUCT_COPY_FILES needed
 # (files live in recovery/root/lib/modules/ + modules.load.recovery)
+
+# First-stage fstab into the vendor ramdisk fragment. Without at least one
+# file installed here the staging dir is never created and the vendorboot
+# pack step dies at 99% with "cannot open directory .../vendor_ramdisk".
+# (Bonus: first-stage init needs this fstab for early mounts incl. the
+# metadata/fileencryption setup that FBE decrypt depends on.)
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/recovery.fstab:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.mt6878
+
+# First-stage init binary into vendor ramdisk (harmless no-op if the
+# module name doesn't exist in this manifest - missing deps are allowed)
+PRODUCT_PACKAGES += \
+    init_first_stage
