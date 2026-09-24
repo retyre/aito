@@ -57,6 +57,9 @@ BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2
 # rejects it unless building the recovery image. INCLUDE_DTB stays: without it
 # board_config.mk:816 rejects BOARD_PREBUILT_DTBIMAGE_DIR outright.
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+# Without this the build emits header+dtb only (rs=4, 340KB image) - this flag
+# moves the recovery resources/ramdisk into the vendor_boot recovery fragment
+BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
 
 # A/B
 AB_OTA_UPDATER := true
