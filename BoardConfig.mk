@@ -37,6 +37,9 @@ TARGET_USES_UEFI := true
 # Kernel - prebuilt from stock (boot_a 14MB gzip + vendor_boot dtb)
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
+# vendor_boot image packs its dtb from this dir (*.dtb glob) - without it
+# mkbootimg fails with "DTB image must not be empty" at 99%
+BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilt
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 BOARD_KERNEL_IMAGE_NAME := Image.gz
