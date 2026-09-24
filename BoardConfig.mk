@@ -53,9 +53,10 @@ BOARD_RAMDISK_USE_LZ4 := true
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2
 
 # vendor_boot as recovery - vendorboot carries ramdisk+dtb, kernel lives in boot
-# NOTE: no BOARD_INCLUDE_DTB_IN_BOOTIMG / BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE
-# here - board_config.mk rejects those unless building boot/recovery images,
-# and our target is vendorbootimage (dtb gets injected at pack time if needed)
+# NOTE: no BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE here - board_config.mk
+# rejects it unless building the recovery image. INCLUDE_DTB stays: without it
+# board_config.mk:816 rejects BOARD_PREBUILT_DTBIMAGE_DIR outright.
+BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 
 # A/B
 AB_OTA_UPDATER := true
